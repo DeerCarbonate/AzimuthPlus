@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+group = 'carboutilities'
+version = '0.1'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly "com.github.Anuken.Arc:arc-core:v146"
+    compileOnly "com.github.Anuken.Mindustry:core:v155"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 8
+}
+
+jar {
+    archiveBaseName = "CarboUtilities"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+    from configurations.runtimeClasspath.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            exclude 'carboutilities/shaders/**'
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}

@@ -1,0 +1,9 @@
+name: carboutilites
+displayName: "[[]#d2fffe]Azimuth++[[]]"
+author: DeerCarbonate
+main: "carboutilities.CarboUtilities"
+description: HAEHAEHAE
+version: 0.1
+minGameVersion: 155.3
+hidden: true
+java: true
