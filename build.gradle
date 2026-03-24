@@ -38,3 +38,19 @@ sourceSets {
         }
     }
 }
+task deploy(type: Jar) {
+    archiveBaseName = "CarboUtilities"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+    from configurations.runtimeClasspath.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }
+
+    doLast {
+        def d8 = "${System.getenv('ANDROID_HOME')}/build-tools/30.0.3/d8"
+        def input = archiveFile.get().asFile.absolutePath
+        exec {
+            commandLine d8, '--release', '--output', input, input
+        }
+    }
+}
