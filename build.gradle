@@ -49,7 +49,7 @@ task deploy(type: Jar) {
     doLast {
         def d8 = "${System.getenv('ANDROID_HOME')}/build-tools/30.0.3/d8"
         def input = archiveFile.get().asFile.absolutePath
-        exec {
+        project.exec {
             commandLine d8, '--release', '--output', input, input
         }
     }
