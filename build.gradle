@@ -49,8 +49,12 @@ task deploy(type: Jar) {
     doLast {
         def d8 = "${System.getenv('ANDROID_HOME')}/build-tools/30.0.3/d8"
         def input = archiveFile.get().asFile.absolutePath
-        project.exec {
-            commandLine d8, '--release', '--output', input, input
+        def process = new ProcessBuilder(d8, '--release', '--output', input, input)
+            .inheritIO()
+            .start()
+        def exitCode = process.waitFor()
+        if (exitCode != 0) {
+            throw new GradleException("d8 failed with exit code $exitCode")
         }
     }
 }
